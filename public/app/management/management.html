@@ -1,0 +1,35 @@
+   <div class="starter-template" ng-controller="SystemCtrl">
+        <h1>Manage ScaleIO Systems</h1>
+        <p class="lead">Add the ScaleIO GW IP and MDM credentials for systems you want on the dashboard.</p>
+        <table class="table">
+          <tr>
+            <th>&nbsp;</th>
+            <th>ScaleIO IP</th>
+            <th>System ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Location</th>
+            <th>Actions</th>
+            <th>&nbsp;</th>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td><input class="form-control" ng-model="system.ip"></td>
+            <td><input class="form-control" id="disabledInput" type="text" placeholder="ID populates on add" disabled></td>
+            <td><input class="form-control" ng-model="system.username"></td>
+            <td><input class="form-control" type="password" ng-model="system.password"></td>
+            <td><input class="form-control" ng-model="system.location"></td>
+            <td><button type="button" class="btn btn-primary">Add</button></td>
+          </tr>
+          <tr ng-repeat="system in systemlist">
+            <td><span class="glyphicon glyphicon-ok" style="color:green"></span></td>
+            <td>{{system.ip}}</td>
+            <td>{{system.id}}</td>
+            <td>{{system.username}}</td>
+            <td>**********</td>
+            <td>{{system.location}}</td>
+            <td><button type="button" class="btn btn-warning">Edit</button></td>
+            <td><button type="button" class="btn btn-danger">Remove</button></td>
+          </tr>
+        </table>
+      </div>

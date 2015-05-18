@@ -1,0 +1,31 @@
+{
+  "name": "scaleiq",
+  "version": "1.0.0",
+  "description": "Multi-instance ScaleIO statistics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bkvarda/scaleiq"
+  },
+  "keywords": [
+    "scaleio",
+    "emc",
+    "html5",
+    "dashboard"
+  ],
+  "author": "Brandon Kvarda",
+  "license": "Apache License Version 2.0",
+  "bugs": {
+    "url": "https://github.com/bkvarda/scaleiq/issues"
+  },
+  "homepage": "https://github.com/bkvarda/scaleiq",
+  "dependencies": {
+    "body-parser": "^1.12.4",
+    "express": "^4.12.3",
+    "mongojs": "^0.18.2",
+    "restler": "^3.2.2"
+  }
+}
