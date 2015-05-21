@@ -1,4 +1,4 @@
-   <div class="starter-template" ng-controller="SystemCtrl">
+   <div class="starter-template">
         <h1>Manage ScaleIO Systems</h1>
         <p class="lead">Add the ScaleIO GW IP and MDM credentials for systems you want on the dashboard.</p>
         <table class="table">
@@ -22,7 +22,8 @@
             <td><button type="button" class="btn btn-primary">Add</button></td>
           </tr>
           <tr ng-repeat="system in systemlist">
-            <td><span class="glyphicon glyphicon-ok" style="color:green"></span></td>
+            <td ng-if="verifyConnection(system)"><span class="glyphicon glyphicon-ok" style="color:green"></span></td>
+            <td ng-if="!verifyConnection(system)"><span class="glyphicon glyphicon-remove" style="color:red"></span></td>
             <td>{{system.ip}}</td>
             <td>{{system.id}}</td>
             <td>{{system.username}}</td>

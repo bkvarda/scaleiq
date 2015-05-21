@@ -1,7 +1,7 @@
 angular.module('scaleiqApp.display')
 
 
-.controller('DisplayCtrl',['$scope','$http', function($scope,$http){
+.controller('DisplayCtrl',['$scope', function($scope){
 	console.log("Display Hello");
 
 	dashboardTab = {"name": "Dashboard"};
