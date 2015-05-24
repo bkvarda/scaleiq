@@ -25,7 +25,9 @@ router.get('/systems', function(req, res){
    
 	systems.getSystems(function(systemlist){
 		systems.verify(systemlist, function(data){
+			console.log(data);
 			res.json(data);
+			
 		});
 	});
 
@@ -38,6 +40,15 @@ router.post('/systems', function(req, res){
 	systems.addSystem(system, function(data){
 		res.json(data);
 
+	});
+
+});
+
+router.delete('/systems/:id', function(req, res){
+	var id = req.params.id;
+	console.log("Deleting "+id);
+	systems.removeSystem(id, function(data){
+		res.json(data);
 	});
 
 });

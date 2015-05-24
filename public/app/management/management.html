@@ -25,12 +25,12 @@
             <td ng-if="verifyConnection(system)"><span class="glyphicon glyphicon-ok" style="color:green"></span></td>
             <td ng-if="!verifyConnection(system)"><span class="glyphicon glyphicon-remove" style="color:red"></span></td>
             <td>{{system.ip}}</td>
-            <td>{{system.id}}</td>
+            <td>{{system.system_id}}</td>
             <td>{{system.username}}</td>
             <td>**********</td>
             <td>{{system.location}}</td>
             <td><button type="button" class="btn btn-warning">Edit</button></td>
-            <td><button type="button" class="btn btn-danger">Remove</button></td>
+            <td><button type="button" class="btn btn-danger" ng-click="deleteSystem(system._id)">Remove</button></td>
           </tr>
         </table>
       </div>

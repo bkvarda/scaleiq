@@ -22,6 +22,14 @@ angular.module('scaleiqApp.management')
 		});
 	};
 
+	$scope.deleteSystem = function(id){
+		console.log("removing "+id);
+		$http.delete('/api/systems/' + id).success(function(response){
+			console.log(response);
+			refresh();
+		});	
+	};
+
 	$scope.verifyConnection = function(system){
 
 		return system.verified;

@@ -11,6 +11,10 @@ var db = mongojs('systems', ['systems']);
 //Attempt to login in to system, return true or false if it was successful
 exports.verify = function(systemlist, callback){
 	var count = systemlist.length;
+	
+	if(count === 0){
+		callback(systemlist);
+	}
 	systemlist.forEach(function(system){
 		var options = {"rejectUnauthorized": false};
 		var uri = "http://"+system.ip+"/api/login";
@@ -41,14 +45,15 @@ exports.verify = function(systemlist, callback){
 	});
 };
 
+//retrieves system list from DB
 exports.getSystems = function(callback){
 	db.systems.find(function(err, docs){
-		console.log(docs);
+		console.log(docs.length);
 		callback(docs);
 	});
 };
 
-
+//adds system to DB
 exports.addSystem = function(system, callback){
 	
 	setID(system, function(systemWithID){
@@ -58,6 +63,15 @@ exports.addSystem = function(system, callback){
 	    	callback(doc);
 	    });
 	});
+};
+
+exports.removeSystem = function(id, callback){
+
+	db.systems.remove({_id: mongojs.ObjectId(id)}, function(err, doc){
+    	callback(doc);
+	});
+
+
 };
 	
 
@@ -98,15 +112,15 @@ setID = function(system, callback){
 
 				if(data instanceof Error){
 				console.log("it was instanceof error");				
-				system.id = "error";
+				system.system_id = "error";
 				}
 				else if(response.statusCode != 200){
 				console.log("it was != 200 status code");
-				system.id = "error";
+				system.system_id = "error";
 				}
 				else{
 				console.log(data);
-				system.id = data[0].id;
+				system.system_id = data[0].id;
 				}
 			callback(system);
 		});
