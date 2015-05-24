@@ -1,15 +1,12 @@
 var express = require('express');
 var app = express();
-var mongojs = require('mongojs');
 var port = process.env.VCAP_APP_PORT || 3000;
-// var db = 
-var bodyParser= require('body-parser');
+var bodyParser = require('body-parser');
 
 
 app.use(express.static(__dirname + "/public"));
 app.use('/management', express.static(__dirname + "/public/app/management"));
 app.use(bodyParser.json());
-
 
 
 app.listen(port);

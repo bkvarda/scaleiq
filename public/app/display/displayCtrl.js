@@ -12,17 +12,18 @@ angular.module('scaleiqApp.display')
 	 $scope.tabs = [dashboardTab,managementTab,settingsTab,contactTab];
 	
 
-	
+	//sets currently selected tab
 	 $scope.select= function(tab) {
         $scope.selected = tab; 
 
  	};
 
+ 	//determines if a given tab is Active
  	$scope.isActive = function(tab) {   
 
        return $scope.selected === tab;
  	};
-
+ 	//determines if a given tab is active by name
  	$scope.isSelected = function(name){
 
  		if($scope.selected){

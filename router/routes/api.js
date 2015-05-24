@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var systems = require('../../models/systems');
-var Sync = require('sync');
-
+var rest = require('restler');
 
 
 
@@ -11,41 +10,75 @@ router.get('/', function(req, res){
 	res.send('Hello');
 });
 
+//GET /api/system/verify/:id
+router.get('/system/verify/:id', function(req, res){
+	console.log("hello");
+	var id = req.params.id;
+	res.send(systems.verify(id));
+
+});
 
 
 
 //GET /api/systems - returns list of systems and whether we can log into them
 router.get('/systems', function(req, res){
    
-   	var system1 = { "ip": "10.4.44.23",
+	systems.getSystems(function(systemlist){
+		systems.verify(systemlist, function(data){
+			res.json(data);
+		});
+	});
+
+});
+
+//POST /api/systems - add a system 
+router.post('/systems', function(req, res){
+	system = req.body;
+	console.log(system);
+	systems.addSystem(system, function(data){
+		res.json(data);
+
+	});
+
+});
+
+//GET /api/system/:id
+router.get('/system/:id', function(req, res){
+  console.log("hello");
+  //retrieve systems from db
+    var system3 = { "ip": "10.4.44.23",
 				"id": "11111111111",
 				"username": "admin1",
 				"password": "Password123456",
 				"location": "Studio H",
 				"description": "Relman Stuff" };
 
-	var system2 = { "ip": "10.4.44.23",
+	var system4 = { "ip": "10.4.44.23",
 				"id": "11111111112",
 				"username": "admin",
 				"password": "Password123",
 				"location": "Studio G",
 				"description": "Build Stuff" };
 
-	var systemlist = [system1,system2];
-	
-	
- 
-	systems.areReachable(systemlist, function(data){
+	var systemlist = [system3,system4];
+	var id = req.params.id;
+	console.log(id);
+	systemlist.forEach(function(system){
+		console.log(system.id);
+		if(system.id == id){
+
+			res.send(system);
 			
-			
-		console.log(data);
-		res.send(data);
-			
+		}
+
 	});
+	
 
-		
-
-  
 });
+
+
+
+
+
 
 module.exports = router; 

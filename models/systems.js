@@ -1,4 +1,7 @@
 var rest = require('restler');
+var bodyParser= require('body-parser');
+var mongojs = require('mongojs');
+var db = mongojs('systems', ['systems']);
 
 
 //Login to System, return Token
@@ -6,38 +9,106 @@ var rest = require('restler');
 
 
 //Attempt to login in to system, return true or false if it was successful
-exports.areReachable = function(systemlist, callback){
-	
-	
-	var options = {rejectUnauthorized: "false"};
-	var result = []
+exports.verify = function(systemlist, callback){
+	var count = systemlist.length;
 	systemlist.forEach(function(system){
-		var ip = system.ip
-		var uri = "http://"+ip+"/api/login";
+		var options = {"rejectUnauthorized": false};
+		var uri = "http://"+system.ip+"/api/login";
 		options.username = system.username;
 		options.password = system.password;
-
-		rest.get(uri, options).on('complete', function(data, response){
+		
+		rest.get(uri, options).on('complete', function(data){
 			if(data instanceof Error){
-				console.log('Error:', data.message);
-				system.reachable = "false";
-				result.push(system);
+				system.verified = false;
+				
+
 			}
 			else if(data.httpStatusCode){
-				console.log('Login unsuccessful', data);
-				system.reachable = "false";
-				result.push(system);
+				system.verified = false;
+				
 			}
 			else{
-				console.log(data);
-				system.reachable = "true";
-				result.push(system);
+				system.verified = true;
+				
 			}
 
-			
+			if(--count === 0){
+
+			callback(systemlist);
+			}
 		});
 
 	});
-
-   callback(result);
 };
+
+exports.getSystems = function(callback){
+	db.systems.find(function(err, docs){
+		console.log(docs);
+		callback(docs);
+	});
+};
+
+
+exports.addSystem = function(system, callback){
+	
+	setID(system, function(systemWithID){
+
+		db.systems.insert(systemWithID, function(err, doc){
+			console.log(doc);
+	    	callback(doc);
+	    });
+	});
+};
+	
+
+//private functions
+
+login = function (system, callback){
+	var options = {"rejectUnauthorized": false};
+	var uri = "http://"+system.ip+"/api/login";
+	options.username = system.username;
+	options.password = system.password;
+	rest.get(uri, options).on('complete', function(data){
+
+			if(data instanceof Error){
+				console.log(data);				
+				token = "error";
+			}
+			else if(data.httpStatusCode){
+				console.log(data);
+				token = "error";
+				
+			}
+			else{
+				token = data; 
+				
+			}
+		callback(token);
+	});
+
+};
+
+setID = function(system, callback){
+	var uri = "http://"+system.ip+"/api/types/System/instances";
+	login(system, function(token){
+		var options = {"rejectUnauthorized": false};
+		options.username = system.username;
+		options.password = token;
+		rest.get(uri, options).on('complete', function(data, response){
+
+				if(data instanceof Error){
+				console.log("it was instanceof error");				
+				system.id = "error";
+				}
+				else if(response.statusCode != 200){
+				console.log("it was != 200 status code");
+				system.id = "error";
+				}
+				else{
+				console.log(data);
+				system.id = data[0].id;
+				}
+			callback(system);
+		});
+	});
+};		 

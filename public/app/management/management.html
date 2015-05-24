@@ -19,7 +19,7 @@
             <td><input class="form-control" ng-model="system.username"></td>
             <td><input class="form-control" type="password" ng-model="system.password"></td>
             <td><input class="form-control" ng-model="system.location"></td>
-            <td><button type="button" class="btn btn-primary">Add</button></td>
+            <td><button type="button" class="btn btn-primary" ng-click="addSystem()">Add</button></td>
           </tr>
           <tr ng-repeat="system in systemlist">
             <td ng-if="verifyConnection(system)"><span class="glyphicon glyphicon-ok" style="color:green"></span></td>
@@ -34,3 +34,4 @@
           </tr>
         </table>
       </div>
+

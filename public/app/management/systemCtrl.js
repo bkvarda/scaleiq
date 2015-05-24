@@ -14,12 +14,17 @@ angular.module('scaleiqApp.management')
 
     refresh();
 
+    $scope.addSystem = function(){
+		console.log($scope.system);
+		$http.post('/api/systems', $scope.system).success(function(response){
+			console.log(response);
+			refresh();
+		});
+	};
+
 	$scope.verifyConnection = function(system){
 
-		username = system.username;
-		ip = system.ip;
-		password = system.password;
-	   return true;
+		return system.verified;
 	   };
 
 	   
