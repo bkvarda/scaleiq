@@ -30,6 +30,22 @@ angular.module('scaleiqApp.management')
 		});	
 	};
 
+	$scope.editSystem = function(id){
+		console.log("editing "+id);
+		$http.get('/api/systems/'+id).success(function(response){
+			$scope.system = response;	
+		});
+
+	};
+
+	$scope.updateSystem = function(){
+		console.log("updating "+$scope.system._id);
+		$http.put('/api/systems/'+$scope.system._id, $scope.system).success(function(response){
+		
+			refresh();
+		});
+	};
+
 	$scope.verifyConnection = function(system){
 
 		return system.verified;

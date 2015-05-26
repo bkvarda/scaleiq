@@ -10,16 +10,6 @@ router.get('/', function(req, res){
 	res.send('Hello');
 });
 
-//GET /api/system/verify/:id
-router.get('/system/verify/:id', function(req, res){
-	console.log("hello");
-	var id = req.params.id;
-	res.send(systems.verify(id));
-
-});
-
-
-
 //GET /api/systems - returns list of systems and whether we can log into them
 router.get('/systems', function(req, res){
    
@@ -35,15 +25,33 @@ router.get('/systems', function(req, res){
 
 //POST /api/systems - add a system 
 router.post('/systems', function(req, res){
-	system = req.body;
+	var system = req.body;
 	console.log(system);
 	systems.addSystem(system, function(data){
 		res.json(data);
-
 	});
-
 });
 
+//GET /api/systems/:id - get mgmt details for a system
+router.get('/systems/:id', function(req, res){
+  var id = req.params.id;
+  console.log("Getting system "+id);
+  systems.getSystem(id, function(data){
+  	  res.json(data);
+  });	
+});
+
+//PUT /api/systems/:id - update/edit a system
+router.put('/systems/:id', function(req, res){
+	var body = req.body;
+	var id = req.params.id;
+	console.log("Editing "+id+" with body "+body);
+	systems.updateSystem(body, function(data){
+		res.json(data);
+	});
+});
+
+//DELETE /api/systems/:id - delete a system 
 router.delete('/systems/:id', function(req, res){
 	var id = req.params.id;
 	console.log("Deleting "+id);
@@ -53,39 +61,15 @@ router.delete('/systems/:id', function(req, res){
 
 });
 
-//GET /api/system/:id
-router.get('/system/:id', function(req, res){
-  console.log("hello");
-  //retrieve systems from db
-    var system3 = { "ip": "10.4.44.23",
-				"id": "11111111111",
-				"username": "admin1",
-				"password": "Password123456",
-				"location": "Studio H",
-				"description": "Relman Stuff" };
-
-	var system4 = { "ip": "10.4.44.23",
-				"id": "11111111112",
-				"username": "admin",
-				"password": "Password123",
-				"location": "Studio G",
-				"description": "Build Stuff" };
-
-	var systemlist = [system3,system4];
+//GET /api/system/verify/:id
+router.get('/system/verify/:id', function(req, res){
+	console.log("hello");
 	var id = req.params.id;
-	console.log(id);
-	systemlist.forEach(function(system){
-		console.log(system.id);
-		if(system.id == id){
-
-			res.send(system);
-			
-		}
-
-	});
-	
+	res.send(systems.verify(id));
 
 });
+
+
 
 
 

@@ -4,10 +4,6 @@ var mongojs = require('mongojs');
 var db = mongojs('systems', ['systems']);
 
 
-//Login to System, return Token
-
-
-
 //Attempt to login in to system, return true or false if it was successful
 exports.verify = function(systemlist, callback){
 	var count = systemlist.length;
@@ -53,6 +49,14 @@ exports.getSystems = function(callback){
 	});
 };
 
+//gets a specific system from DB
+exports.getSystem = function(id, callback){
+	db.systems.findOne({_id: mongojs.ObjectId(id)}, function(err, doc){
+		callback(doc);
+	});
+
+};
+
 //adds system to DB
 exports.addSystem = function(system, callback){
 	
@@ -65,6 +69,17 @@ exports.addSystem = function(system, callback){
 	});
 };
 
+//edits sytem in DB
+exports.updateSystem = function(system, callback){
+	var id = system._id;
+	db.systems.findAndModify({query: {_id: mongojs.ObjectId(id)},
+		update: {$set: {ip: system.ip, username: system.username, password: system.password, location: system.location}},
+		new: true}, function(err, doc){
+			callback(doc);
+		});
+};
+
+//removes system from DB
 exports.removeSystem = function(id, callback){
 
 	db.systems.remove({_id: mongojs.ObjectId(id)}, function(err, doc){
@@ -73,8 +88,6 @@ exports.removeSystem = function(id, callback){
 
 
 };
-	
-
 //private functions
 
 login = function (system, callback){
