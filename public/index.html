@@ -15,6 +15,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/chartist/node_modules/chartist/dist/chartist.min.css" rel="stylesheet">
 
     <link href="assets/css/animate.css" rel="stylesheet">
 
@@ -48,8 +49,13 @@
     </nav>
 
     <div class="container"ng-if='isSelected("Management")'>
-    <management ng-controller="SystemCtrl" class="flash"></management>
+      <management ng-controller="SystemCtrl" class="flash"></management>
     </div><!-- /.container -->
+
+    <div class="container"ng-if='isSelected("Dashboard")'>
+        <dashboard ng-controller="DashboardCtrl" class="flash"></dashboard>
+    </div>
+
 
 
     <!-- Bootstrap core JavaScript
@@ -58,8 +64,14 @@
     <script src="./index_files/ui-bootstrap-tpls-0.13.0.min.js"></script>
     <script src="app/scaleiqapp.module.js"></script>
     <script src="app/management/management.module.js"></script>
+    <script src="app/dashboard/dashboard.module.js"></script>
+    <script src="app/dashboard/dashboardCtrl.js"></script>
     <script src="app/management/systemCtrl.js"></script>
     <script src="app/display/display.module.js"></script>
     <script src="app/display/displayCtrl.js"></script>
+    <script src="/chartist/node_modules/chartist/dist/chartist.min.js"></script>
+    <script src="/chartist/dist/angular-chartist.min.js"></script>
+
+
 
 </body></html>
